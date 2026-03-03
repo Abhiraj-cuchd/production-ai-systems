@@ -8,7 +8,7 @@ export default function Footer() {
         {/* Name / role */}
         <div className="text-center md:text-left">
           <p className="text-sm font-semibold" style={{ color: "hsl(var(--foreground))" }}>
-            Alex Mercer
+            Abhiraj Ghosh
           </p>
           <p className="text-xs mt-0.5" style={{ color: "hsl(var(--muted-foreground))" }}>
             AI Systems Engineer · AWS
@@ -51,7 +51,7 @@ export default function Footer() {
 
           {/* Email */}
           <a
-            href="mailto:alex@example.com"
+            href="mailto:abhiraj@example.com"
             className="transition-all duration-200"
             style={{ color: "hsl(var(--muted-foreground))" }}
             onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = "hsl(var(--foreground))")}

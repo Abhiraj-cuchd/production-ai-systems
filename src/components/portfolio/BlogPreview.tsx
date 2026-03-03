@@ -54,7 +54,7 @@ export default function BlogPreview() {
     >
       <div className="mx-auto max-w-6xl px-6">
         {/* Header */}
-        <div className="flex items-end justify-between mb-12 reveal blog-reveal">
+        <div className="flex items-end justify-between mb-4 reveal blog-reveal">
           <div>
             <span
               className="text-xs font-semibold uppercase tracking-widest mb-3 block"
@@ -83,6 +83,14 @@ export default function BlogPreview() {
           </a>
         </div>
 
+        {/* Tagline */}
+        <p
+          className="text-sm mb-12 reveal blog-reveal"
+          style={{ color: "hsl(var(--muted-foreground))", transitionDelay: "40ms" }}
+        >
+          Deep dives into AI architecture, distributed systems tradeoffs, and production reliability.
+        </p>
+
         {/* Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {posts.map((post, i) => (
@@ -90,7 +98,7 @@ export default function BlogPreview() {
               key={post.title}
               href="#"
               className="blog-card reveal blog-reveal p-6 block"
-              style={{ transitionDelay: `${i * 80}ms`, textDecoration: "none" }}
+              style={{ transitionDelay: `${80 + i * 80}ms`, textDecoration: "none" }}
             >
               <div className="flex items-center justify-between mb-4">
                 <span

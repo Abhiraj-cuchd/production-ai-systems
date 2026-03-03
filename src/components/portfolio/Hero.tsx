@@ -11,22 +11,6 @@ export default function Hero() {
       />
 
       <div className="relative mx-auto max-w-6xl px-6 py-32 md:py-40">
-        {/* Badge */}
-        <div
-          className="inline-flex items-center gap-2 rounded-full px-3 py-1 mb-8 text-xs font-medium"
-          style={{
-            background: "hsl(var(--primary) / 0.08)",
-            border: "1px solid hsl(var(--primary) / 0.2)",
-            color: "hsl(var(--primary))",
-          }}
-        >
-          <span
-            className="inline-block h-1.5 w-1.5 rounded-full"
-            style={{ background: "hsl(var(--primary))" }}
-          />
-          Available for senior roles
-        </div>
-
         {/* Headline */}
         <h1
           className="text-5xl md:text-7xl font-bold tracking-tight leading-[1.05] mb-6 max-w-3xl"
@@ -47,8 +31,8 @@ export default function Hero() {
           className="text-lg md:text-xl max-w-xl mb-10 leading-relaxed"
           style={{ color: "hsl(var(--muted-foreground))" }}
         >
-          AI Systems Engineer specializing in Retrieval-Augmented Generation, event-driven
-          pipelines, and cloud-native architectures on AWS.
+          Specializing in RAG systems, event-driven AI pipelines, and
+          production-grade AWS infrastructure.
         </p>
 
         {/* CTAs */}
@@ -96,9 +80,11 @@ export default function Hero() {
         >
           {[
             { value: "3", label: "Production systems shipped" },
-            { value: "AWS", label: "Cloud platform" },
+            { value: "Multi-AZ", label: "Database deployments" },
             { value: "99.9%", label: "Message reliability" },
             { value: "sub-2s", label: "RAG query latency" },
+            { value: "Zero", label: "Downtime deployments" },
+            { value: "DLQ-backed", label: "All ingestion pipelines" },
           ].map((stat) => (
             <div key={stat.label} className="flex flex-col gap-1">
               <span

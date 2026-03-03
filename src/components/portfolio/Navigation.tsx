@@ -12,9 +12,7 @@ export default function Navigation() {
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? "border-b backdrop-blur-md"
-          : ""
+        scrolled ? "border-b backdrop-blur-md" : ""
       }`}
       style={{
         background: scrolled ? "hsl(var(--background) / 0.85)" : "transparent",
@@ -25,7 +23,7 @@ export default function Navigation() {
         {/* Logo */}
         <a href="/" className="flex flex-col leading-none group">
           <span className="text-sm font-semibold tracking-tight" style={{ color: "hsl(var(--foreground))" }}>
-            Alex Mercer
+            Abhiraj Ghosh
           </span>
           <span className="text-xs font-medium" style={{ color: "hsl(var(--muted-foreground))" }}>
             AI Systems Engineer
@@ -41,7 +39,7 @@ export default function Navigation() {
 
         {/* CTA */}
         <a
-          href="mailto:alex@example.com"
+          href="mailto:abhiraj@example.com"
           className="hidden md:inline-flex items-center rounded-lg px-4 py-2 text-xs font-semibold transition-all duration-200"
           style={{
             border: "1px solid hsl(var(--border-subtle))",
