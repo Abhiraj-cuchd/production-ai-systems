@@ -4,7 +4,7 @@ const projects = [
   {
     number: "01",
     title: "Serverless RAG Knowledge Assistant",
-    impact: "Semantic document Q&A at scale — sub-2s query latency via HNSW kNN vector search",
+    impact: "Reduced semantic retrieval latency to under 2 seconds at scale using HNSW kNN indexing on OpenSearch.",
     description:
       "End-to-end serverless pipeline for document ingestion, embedding, and semantic retrieval. Documents are chunked at 512 tokens with overlap, embedded via Amazon Titan, indexed in OpenSearch with HNSW kNN, and queried through Bedrock Claude with structured prompting.",
     highlights: [
@@ -17,11 +17,45 @@ const projects = [
     ],
     stack: ["Lambda", "Bedrock (Claude + Titan)", "OpenSearch", "DynamoDB", "S3", "API Gateway"],
     metric: { label: "Query latency", value: "< 2s" },
+    arch: (
+      <svg viewBox="0 0 320 80" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full" aria-hidden="true">
+        {/* S3 */}
+        <rect x="8" y="28" width="48" height="24" rx="4" fill="hsl(var(--primary) / 0.12)" stroke="hsl(var(--primary) / 0.3)" strokeWidth="1"/>
+        <text x="32" y="44" textAnchor="middle" fontSize="7" fill="hsl(var(--primary))" fontFamily="monospace">S3</text>
+        {/* Arrow */}
+        <line x1="56" y1="40" x2="76" y2="40" stroke="hsl(var(--border-subtle))" strokeWidth="1"/>
+        <polyline points="73,37 76,40 73,43" stroke="hsl(var(--border-subtle))" strokeWidth="1" fill="none"/>
+        {/* Lambda */}
+        <rect x="76" y="28" width="52" height="24" rx="4" fill="hsl(var(--surface-elevated))" stroke="hsl(var(--border-subtle))" strokeWidth="1"/>
+        <text x="102" y="44" textAnchor="middle" fontSize="7" fill="hsl(var(--foreground))" fontFamily="monospace">Lambda</text>
+        {/* Arrow */}
+        <line x1="128" y1="40" x2="148" y2="40" stroke="hsl(var(--border-subtle))" strokeWidth="1"/>
+        <polyline points="145,37 148,40 145,43" stroke="hsl(var(--border-subtle))" strokeWidth="1" fill="none"/>
+        {/* Titan */}
+        <rect x="148" y="28" width="52" height="24" rx="4" fill="hsl(var(--surface-elevated))" stroke="hsl(var(--border-subtle))" strokeWidth="1"/>
+        <text x="174" y="44" textAnchor="middle" fontSize="7" fill="hsl(var(--foreground))" fontFamily="monospace">Titan</text>
+        {/* Arrow */}
+        <line x1="200" y1="40" x2="220" y2="40" stroke="hsl(var(--border-subtle))" strokeWidth="1"/>
+        <polyline points="217,37 220,40 217,43" stroke="hsl(var(--border-subtle))" strokeWidth="1" fill="none"/>
+        {/* OpenSearch */}
+        <rect x="220" y="20" width="60" height="24" rx="4" fill="hsl(var(--primary) / 0.12)" stroke="hsl(var(--primary) / 0.3)" strokeWidth="1"/>
+        <text x="250" y="36" textAnchor="middle" fontSize="7" fill="hsl(var(--primary))" fontFamily="monospace">OpenSearch</text>
+        {/* Bedrock below */}
+        <rect x="220" y="52" width="60" height="20" rx="4" fill="hsl(var(--surface-elevated))" stroke="hsl(var(--border-subtle))" strokeWidth="1"/>
+        <text x="250" y="65" textAnchor="middle" fontSize="7" fill="hsl(var(--foreground))" fontFamily="monospace">Bedrock</text>
+        {/* Vertical connector */}
+        <line x1="250" y1="44" x2="250" y2="52" stroke="hsl(var(--border-subtle))" strokeWidth="1" strokeDasharray="2 2"/>
+        {/* DLQ label */}
+        <rect x="76" y="60" width="52" height="16" rx="3" fill="hsl(var(--surface-elevated))" stroke="hsl(var(--border-subtle))" strokeWidth="1"/>
+        <text x="102" y="71" textAnchor="middle" fontSize="6" fill="hsl(var(--muted-foreground))" fontFamily="monospace">DLQ</text>
+        <line x1="102" y1="52" x2="102" y2="60" stroke="hsl(var(--border-subtle))" strokeWidth="1" strokeDasharray="2 2"/>
+      </svg>
+    ),
   },
   {
     number: "02",
     title: "AI Document Risk & Compliance Analyzer",
-    impact: "99.9% message processing reliability with automated high-risk stakeholder alerting",
+    impact: "Achieved 99.9% message processing reliability through fully async fan-out with DLQ-backed fault tolerance.",
     description:
       "Fully asynchronous compliance analysis pipeline. Documents arrive via S3 events, fan into SQS, trigger Lambda workers that invoke Bedrock Claude for structured risk classification, and route high-severity findings through SNS to stakeholder channels — all without a single blocking call.",
     highlights: [
@@ -34,11 +68,50 @@ const projects = [
     ],
     stack: ["Lambda", "Bedrock (Claude)", "SQS", "SNS", "DynamoDB", "S3"],
     metric: { label: "Message reliability", value: "99.9%" },
+    arch: (
+      <svg viewBox="0 0 320 80" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full" aria-hidden="true">
+        {/* S3 */}
+        <rect x="8" y="28" width="40" height="24" rx="4" fill="hsl(var(--primary) / 0.12)" stroke="hsl(var(--primary) / 0.3)" strokeWidth="1"/>
+        <text x="28" y="44" textAnchor="middle" fontSize="7" fill="hsl(var(--primary))" fontFamily="monospace">S3</text>
+        {/* Arrow */}
+        <line x1="48" y1="40" x2="62" y2="40" stroke="hsl(var(--border-subtle))" strokeWidth="1"/>
+        <polyline points="59,37 62,40 59,43" stroke="hsl(var(--border-subtle))" strokeWidth="1" fill="none"/>
+        {/* SQS */}
+        <rect x="62" y="28" width="44" height="24" rx="4" fill="hsl(var(--surface-elevated))" stroke="hsl(var(--border-subtle))" strokeWidth="1"/>
+        <text x="84" y="44" textAnchor="middle" fontSize="7" fill="hsl(var(--foreground))" fontFamily="monospace">SQS</text>
+        {/* DLQ */}
+        <rect x="62" y="60" width="44" height="16" rx="3" fill="hsl(var(--surface-elevated))" stroke="hsl(var(--border-subtle))" strokeWidth="1"/>
+        <text x="84" y="71" textAnchor="middle" fontSize="6" fill="hsl(var(--muted-foreground))" fontFamily="monospace">DLQ ×3</text>
+        <line x1="84" y1="52" x2="84" y2="60" stroke="hsl(var(--border-subtle))" strokeWidth="1" strokeDasharray="2 2"/>
+        {/* Arrow */}
+        <line x1="106" y1="40" x2="120" y2="40" stroke="hsl(var(--border-subtle))" strokeWidth="1"/>
+        <polyline points="117,37 120,40 117,43" stroke="hsl(var(--border-subtle))" strokeWidth="1" fill="none"/>
+        {/* Lambda */}
+        <rect x="120" y="28" width="52" height="24" rx="4" fill="hsl(var(--surface-elevated))" stroke="hsl(var(--border-subtle))" strokeWidth="1"/>
+        <text x="146" y="44" textAnchor="middle" fontSize="7" fill="hsl(var(--foreground))" fontFamily="monospace">Lambda</text>
+        {/* Arrow */}
+        <line x1="172" y1="40" x2="186" y2="40" stroke="hsl(var(--border-subtle))" strokeWidth="1"/>
+        <polyline points="183,37 186,40 183,43" stroke="hsl(var(--border-subtle))" strokeWidth="1" fill="none"/>
+        {/* Bedrock */}
+        <rect x="186" y="28" width="52" height="24" rx="4" fill="hsl(var(--primary) / 0.12)" stroke="hsl(var(--primary) / 0.3)" strokeWidth="1"/>
+        <text x="212" y="44" textAnchor="middle" fontSize="7" fill="hsl(var(--primary))" fontFamily="monospace">Bedrock</text>
+        {/* Arrow to SNS */}
+        <line x1="238" y1="40" x2="256" y2="40" stroke="hsl(var(--border-subtle))" strokeWidth="1"/>
+        <polyline points="253,37 256,40 253,43" stroke="hsl(var(--border-subtle))" strokeWidth="1" fill="none"/>
+        {/* SNS */}
+        <rect x="256" y="20" width="44" height="20" rx="4" fill="hsl(var(--surface-elevated))" stroke="hsl(var(--border-subtle))" strokeWidth="1"/>
+        <text x="278" y="33" textAnchor="middle" fontSize="7" fill="hsl(var(--foreground))" fontFamily="monospace">SNS</text>
+        {/* DynamoDB */}
+        <rect x="256" y="48" width="44" height="20" rx="4" fill="hsl(var(--surface-elevated))" stroke="hsl(var(--border-subtle))" strokeWidth="1"/>
+        <text x="278" y="61" textAnchor="middle" fontSize="7" fill="hsl(var(--foreground))" fontFamily="monospace">DynamoDB</text>
+        <line x1="238" y1="48" x2="256" y2="58" stroke="hsl(var(--border-subtle))" strokeWidth="1" strokeDasharray="2 2"/>
+      </svg>
+    ),
   },
   {
     number: "03",
     title: "Cloud-Native Ticketing Microservices Platform",
-    impact: "Zero-downtime Blue/Green deployments — NestJS microservices migrated to production AWS",
+    impact: "Eliminated deployment downtime entirely by migrating a NestJS monolith to Blue/Green ECS Fargate with automated rollback.",
     description:
       "Full migration of a NestJS monolith to containerized microservices on ECS Fargate with Blue/Green CodeDeploy, RDS PostgreSQL Multi-AZ for data durability, SNS+SQS event fanout between services, and private VPC networking with layered security groups — all secrets managed via Secrets Manager.",
     highlights: [
@@ -51,6 +124,47 @@ const projects = [
     ],
     stack: ["ECS Fargate", "RDS PostgreSQL Multi-AZ", "SNS/SQS", "ALB", "CodeDeploy", "Secrets Manager"],
     metric: { label: "Deployment downtime", value: "0s" },
+    arch: (
+      <svg viewBox="0 0 320 80" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full" aria-hidden="true">
+        {/* ALB */}
+        <rect x="8" y="28" width="40" height="24" rx="4" fill="hsl(var(--primary) / 0.12)" stroke="hsl(var(--primary) / 0.3)" strokeWidth="1"/>
+        <text x="28" y="44" textAnchor="middle" fontSize="7" fill="hsl(var(--primary))" fontFamily="monospace">ALB</text>
+        {/* Arrow */}
+        <line x1="48" y1="40" x2="62" y2="40" stroke="hsl(var(--border-subtle))" strokeWidth="1"/>
+        <polyline points="59,37 62,40 59,43" stroke="hsl(var(--border-subtle))" strokeWidth="1" fill="none"/>
+        {/* ECS Fargate */}
+        <rect x="62" y="20" width="64" height="40" rx="4" fill="hsl(var(--surface-elevated))" stroke="hsl(var(--border-subtle))" strokeWidth="1"/>
+        <text x="94" y="37" textAnchor="middle" fontSize="7" fill="hsl(var(--foreground))" fontFamily="monospace">ECS</text>
+        <text x="94" y="50" textAnchor="middle" fontSize="6" fill="hsl(var(--muted-foreground))" fontFamily="monospace">Fargate</text>
+        {/* CodeDeploy label */}
+        <rect x="62" y="64" width="64" height="14" rx="3" fill="none" stroke="hsl(var(--border-subtle))" strokeWidth="1" strokeDasharray="3 2"/>
+        <text x="94" y="74" textAnchor="middle" fontSize="6" fill="hsl(var(--muted-foreground))" fontFamily="monospace">CodeDeploy B/G</text>
+        {/* Arrow */}
+        <line x1="126" y1="40" x2="144" y2="40" stroke="hsl(var(--border-subtle))" strokeWidth="1"/>
+        <polyline points="141,37 144,40 141,43" stroke="hsl(var(--border-subtle))" strokeWidth="1" fill="none"/>
+        {/* SNS */}
+        <rect x="144" y="20" width="44" height="20" rx="4" fill="hsl(var(--surface-elevated))" stroke="hsl(var(--border-subtle))" strokeWidth="1"/>
+        <text x="166" y="33" textAnchor="middle" fontSize="7" fill="hsl(var(--foreground))" fontFamily="monospace">SNS</text>
+        {/* SQS */}
+        <rect x="144" y="48" width="44" height="20" rx="4" fill="hsl(var(--surface-elevated))" stroke="hsl(var(--border-subtle))" strokeWidth="1"/>
+        <text x="166" y="61" textAnchor="middle" fontSize="7" fill="hsl(var(--foreground))" fontFamily="monospace">SQS</text>
+        <line x1="166" y1="40" x2="166" y2="48" stroke="hsl(var(--border-subtle))" strokeWidth="1"/>
+        {/* Arrow */}
+        <line x1="188" y1="40" x2="204" y2="40" stroke="hsl(var(--border-subtle))" strokeWidth="1"/>
+        <polyline points="201,37 204,40 201,43" stroke="hsl(var(--border-subtle))" strokeWidth="1" fill="none"/>
+        {/* VPC box */}
+        <rect x="204" y="12" width="108" height="56" rx="4" fill="none" stroke="hsl(var(--border-subtle))" strokeWidth="1" strokeDasharray="3 2"/>
+        <text x="258" y="22" textAnchor="middle" fontSize="6" fill="hsl(var(--muted-foreground))" fontFamily="monospace">Private VPC</text>
+        {/* RDS */}
+        <rect x="214" y="28" width="40" height="24" rx="4" fill="hsl(var(--primary) / 0.12)" stroke="hsl(var(--primary) / 0.3)" strokeWidth="1"/>
+        <text x="234" y="40" textAnchor="middle" fontSize="6.5" fill="hsl(var(--primary))" fontFamily="monospace">RDS</text>
+        <text x="234" y="50" textAnchor="middle" fontSize="6" fill="hsl(var(--primary))" fontFamily="monospace">Multi-AZ</text>
+        {/* Secrets */}
+        <rect x="262" y="28" width="44" height="24" rx="4" fill="hsl(var(--surface-elevated))" stroke="hsl(var(--border-subtle))" strokeWidth="1"/>
+        <text x="284" y="40" textAnchor="middle" fontSize="6" fill="hsl(var(--foreground))" fontFamily="monospace">Secrets</text>
+        <text x="284" y="50" textAnchor="middle" fontSize="6" fill="hsl(var(--muted-foreground))" fontFamily="monospace">Manager</text>
+      </svg>
+    ),
   },
 ];
 
@@ -187,6 +301,14 @@ export default function Projects() {
                 <p className="text-sm font-medium" style={{ color: "hsl(var(--primary))" }}>
                   {project.impact}
                 </p>
+              </div>
+
+              {/* Architecture diagram */}
+              <div
+                className="rounded-lg p-4"
+                style={{ background: "hsl(var(--surface-elevated))", border: "1px solid hsl(var(--border-subtle))" }}
+              >
+                {project.arch}
               </div>
 
               {/* Description */}
