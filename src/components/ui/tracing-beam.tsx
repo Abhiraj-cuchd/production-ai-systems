@@ -9,12 +9,12 @@ interface TracingBeamProps {
 export function TracingBeam({ children, className = "" }: TracingBeamProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [svgHeight, setSvgHeight] = useState(0);
-  const [beamTop, setBeamTop] = useState(0);
 
-  const yProgress = useSpring(0, { stiffness: 300, damping: 60, restDelta: 0.001 });
+  // Spring for smooth tracking
+  const yProgress = useSpring(0, { stiffness: 200, damping: 50, restDelta: 0.001 });
 
-  const y1 = useTransform(yProgress, [0, 1], [0, svgHeight]);
-  const y2 = useTransform(yProgress, [0, 1], [0, svgHeight > 100 ? svgHeight - 50 : svgHeight]);
+  // Beam draws from 0 to current scroll progress position
+  const y2 = useTransform(yProgress, [0, 1], [0, svgHeight]);
 
   useEffect(() => {
     const el = ref.current;
@@ -22,7 +22,6 @@ export function TracingBeam({ children, className = "" }: TracingBeamProps) {
 
     const updateHeight = () => {
       setSvgHeight(el.offsetHeight);
-      setBeamTop(el.getBoundingClientRect().top + window.scrollY);
     };
 
     updateHeight();
@@ -32,12 +31,19 @@ export function TracingBeam({ children, className = "" }: TracingBeamProps) {
     const handleScroll = () => {
       if (!el) return;
       const rect = el.getBoundingClientRect();
-      const total = el.offsetHeight - window.innerHeight;
-      const progress = Math.min(1, Math.max(0, -rect.top / total));
+      // Start animating as soon as the top of the section enters the viewport
+      const viewportH = window.innerHeight;
+      // progress: 0 when top of element is at bottom of viewport, 1 when bottom of element is at top
+      const total = el.offsetHeight + viewportH;
+      const traveled = viewportH - rect.top;
+      const progress = Math.min(1, Math.max(0, traveled / total));
       yProgress.set(progress);
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
+    // Run once on mount
+    handleScroll();
+
     return () => {
       ro.disconnect();
       window.removeEventListener("scroll", handleScroll);
@@ -55,7 +61,7 @@ export function TracingBeam({ children, className = "" }: TracingBeamProps) {
           className="absolute top-0 left-0"
           aria-hidden="true"
         >
-          {/* Track line */}
+          {/* Track line — full height */}
           <line
             x1="10"
             y1="0"
@@ -64,20 +70,20 @@ export function TracingBeam({ children, className = "" }: TracingBeamProps) {
             stroke="hsl(263 70% 58% / 0.08)"
             strokeWidth="1.5"
           />
-          {/* Animated beam */}
+          {/* Animated fill line — starts at 0, grows to y2 */}
           <motion.line
             x1="10"
-            y1={y1}
+            y1="0"
             x2="10"
             y2={y2}
-            stroke="hsl(263 70% 58% / 0.5)"
+            stroke="hsl(263 70% 58% / 0.55)"
             strokeWidth="1.5"
             strokeLinecap="round"
           />
-          {/* Glowing dot */}
+          {/* Glowing dot at leading edge */}
           <motion.circle
             cx="10"
-            cy={y1}
+            cy={y2}
             r="3"
             fill="hsl(263 70% 58%)"
             style={{ filter: "drop-shadow(0 0 4px hsl(263 70% 58% / 0.8))" }}
