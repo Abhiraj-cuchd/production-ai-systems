@@ -1,6 +1,21 @@
+import { BackgroundBeams } from "@/components/ui/background-beams";
+import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
+
+const stats = [
+  { value: "3", label: "Production systems shipped" },
+  { value: "Multi-AZ", label: "Database deployments" },
+  { value: "99.9%", label: "Message reliability" },
+  { value: "sub-2s", label: "RAG query latency" },
+  { value: "Zero", label: "Downtime deployments" },
+  { value: "DLQ-backed", label: "All ingestion pipelines" },
+];
+
 export default function Hero() {
   return (
     <section className="relative min-h-screen flex items-center dot-grid overflow-hidden">
+      {/* Background beams */}
+      <BackgroundBeams />
+
       {/* Ambient glow */}
       <div
         className="pointer-events-none absolute inset-0"
@@ -10,20 +25,16 @@ export default function Hero() {
         }}
       />
 
-      <div className="relative mx-auto max-w-6xl px-6 py-32 md:py-40">
+      <div className="relative mx-auto max-w-6xl px-4 md:px-6 py-32 md:py-40">
         {/* Headline */}
         <h1
-          className="text-5xl md:text-7xl font-bold tracking-tight leading-[1.05] mb-6 max-w-3xl"
+          className="text-5xl md:text-7xl font-bold leading-[1.05] mb-6 max-w-3xl"
           style={{
             color: "hsl(var(--foreground))",
             letterSpacing: "-0.02em",
           }}
         >
-          Designing
-          <br />
-          <span style={{ color: "hsl(var(--primary))" }}>Production-Grade</span>
-          <br />
-          AI Systems
+          <TextGenerateEffect words="Designing Production-Grade AI Systems" />
         </h1>
 
         {/* Subhead */}
@@ -37,7 +48,7 @@ export default function Hero() {
 
         {/* CTAs */}
         <div className="flex flex-wrap items-center gap-4">
-          <a href="#projects" className="btn-primary animate-pulse-glow">
+          <a href="#projects" className="btn-primary animate-pulse-glow" style={{ minHeight: 44 }}>
             View Projects
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -53,7 +64,7 @@ export default function Hero() {
               <path d="m9 18 6-6-6-6" />
             </svg>
           </a>
-          <a href="#" className="btn-ghost">
+          <a href="#" className="btn-ghost" style={{ minHeight: 44 }}>
             Download Resume
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -75,29 +86,24 @@ export default function Hero() {
 
         {/* Stat strip */}
         <div
-          className="mt-20 flex flex-wrap gap-8 pt-8"
+          className="mt-20 pt-8"
           style={{ borderTop: "1px solid hsl(var(--border-subtle))" }}
         >
-          {[
-            { value: "3", label: "Production systems shipped" },
-            { value: "Multi-AZ", label: "Database deployments" },
-            { value: "99.9%", label: "Message reliability" },
-            { value: "sub-2s", label: "RAG query latency" },
-            { value: "Zero", label: "Downtime deployments" },
-            { value: "DLQ-backed", label: "All ingestion pipelines" },
-          ].map((stat) => (
-            <div key={stat.label} className="flex flex-col gap-1">
-              <span
-                className="text-2xl font-bold"
-                style={{ color: "hsl(var(--foreground))" }}
-              >
-                {stat.value}
-              </span>
-              <span className="text-xs" style={{ color: "hsl(var(--muted-foreground))" }}>
-                {stat.label}
-              </span>
-            </div>
-          ))}
+          <div className="grid grid-cols-2 md:grid-cols-6 gap-x-8 gap-y-6">
+            {stats.map((stat) => (
+              <div key={stat.label} className="flex flex-col gap-1">
+                <span
+                  className="text-2xl font-bold"
+                  style={{ color: "hsl(var(--foreground))" }}
+                >
+                  {stat.value}
+                </span>
+                <span className="text-xs" style={{ color: "hsl(var(--muted-foreground))" }}>
+                  {stat.label}
+                </span>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>

@@ -1,4 +1,5 @@
-import { useEffect } from "react";
+import { motion } from "framer-motion";
+import { TracingBeam } from "@/components/ui/tracing-beam";
 
 const principles = [
   {
@@ -34,33 +35,21 @@ const principles = [
 ];
 
 export default function Approach() {
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("visible");
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-
-    const els = document.querySelectorAll(".approach-reveal");
-    els.forEach((el) => observer.observe(el));
-    return () => observer.disconnect();
-  }, []);
-
   return (
     <section
       id="approach"
-      className="py-24 md:py-32"
+      className="py-16 md:py-32"
       style={{ borderTop: "1px solid hsl(var(--border-subtle))" }}
     >
-      <div className="mx-auto max-w-6xl px-6">
+      <div className="mx-auto max-w-6xl px-4 md:px-6">
         {/* Header */}
-        <div className="mb-16 reveal approach-reveal">
+        <motion.div
+          className="mb-16"
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.4 }}
+        >
           <span
             className="text-xs font-semibold uppercase tracking-widest mb-3 block"
             style={{ color: "hsl(var(--primary))" }}
@@ -73,46 +62,70 @@ export default function Approach() {
           >
             Engineering Approach
           </h2>
-        </div>
+        </motion.div>
 
-        {/* Principles */}
-        <div className="space-y-0">
-          {principles.map((p, i) => (
-            <div
-              key={p.number}
-              className="reveal approach-reveal grid grid-cols-[48px_1fr_1fr] md:grid-cols-[64px_1fr_1fr] items-start gap-6 py-7"
-              style={{
-                borderTop: "1px solid hsl(var(--border-subtle))",
-                transitionDelay: `${i * 60}ms`,
-              }}
-            >
-              <span
-                className="text-xs font-mono font-medium pt-1"
-                style={{ color: "hsl(var(--primary))" }}
+        {/* Tracing beam wraps the list */}
+        <TracingBeam>
+          <div className="space-y-0">
+            {principles.map((p, i) => (
+              <motion.div
+                key={p.number}
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ duration: 0.4, delay: i * 0.12, ease: [0.25, 0.1, 0.25, 1] }}
+                className="group py-7"
+                style={{ borderTop: "1px solid hsl(var(--border-subtle))" }}
               >
-                {p.number}
-              </span>
-              <h3
-                className="text-base font-semibold leading-snug"
-                style={{ color: "hsl(var(--foreground))" }}
-              >
-                {p.title}
-              </h3>
-              <p
-                className="text-sm leading-relaxed hidden md:block"
-                style={{ color: "hsl(var(--muted-foreground))" }}
-              >
-                {p.detail}
-              </p>
-              <p
-                className="text-sm leading-relaxed md:hidden col-span-2"
-                style={{ color: "hsl(var(--muted-foreground))" }}
-              >
-                {p.detail}
-              </p>
-            </div>
-          ))}
-        </div>
+                {/* Desktop: 3-col grid */}
+                <div className="hidden md:grid md:grid-cols-[64px_1fr_1fr] items-start gap-6">
+                  <span
+                    className="text-xs font-mono font-medium pt-1"
+                    style={{ color: "hsl(var(--primary))" }}
+                  >
+                    {p.number}
+                  </span>
+                  <h3
+                    className="text-base font-semibold leading-snug transition-colors duration-200 group-hover:text-[hsl(var(--primary))]"
+                    style={{ color: "hsl(var(--foreground))" }}
+                  >
+                    {p.title}
+                  </h3>
+                  <p
+                    className="text-sm leading-relaxed"
+                    style={{ color: "hsl(var(--muted-foreground))" }}
+                  >
+                    {p.detail}
+                  </p>
+                </div>
+
+                {/* Mobile: single column */}
+                <div className="md:hidden flex flex-col gap-2">
+                  <div className="flex items-center gap-3">
+                    <span
+                      className="text-xs font-mono font-medium"
+                      style={{ color: "hsl(var(--primary))" }}
+                    >
+                      {p.number}
+                    </span>
+                    <h3
+                      className="text-sm font-semibold leading-snug transition-colors duration-200 group-hover:text-[hsl(var(--primary))]"
+                      style={{ color: "hsl(var(--foreground))" }}
+                    >
+                      {p.title}
+                    </h3>
+                  </div>
+                  <p
+                    className="text-sm leading-relaxed"
+                    style={{ color: "hsl(var(--muted-foreground))" }}
+                  >
+                    {p.detail}
+                  </p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </TracingBeam>
       </div>
     </section>
   );

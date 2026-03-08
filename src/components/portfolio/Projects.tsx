@@ -1,4 +1,5 @@
 import { useRef, useState, useEffect } from "react";
+import { Github, FileText, Globe } from "lucide-react";
 
 const projects = [
   {
@@ -12,40 +13,30 @@ const projects = [
       "512-token overlapping chunks for semantic coherence",
       "HNSW kNN indexing with cosine similarity in OpenSearch",
       "DLQ-backed ingestion with maxReceiveCount retry logic",
-      "X-Ray distributed tracing across all Lambda functions",
       "Per-Lambda IAM roles — zero shared credentials",
     ],
     stack: ["Lambda", "Bedrock (Claude + Titan)", "OpenSearch", "DynamoDB", "S3", "API Gateway"],
     metric: { label: "Query latency", value: "< 2s" },
+    links: { repo: "#", doc: "#", demo: "#" },
     arch: (
       <svg viewBox="0 0 320 80" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full" aria-hidden="true">
-        {/* S3 */}
         <rect x="8" y="28" width="48" height="24" rx="4" fill="hsl(var(--primary) / 0.12)" stroke="hsl(var(--primary) / 0.3)" strokeWidth="1"/>
         <text x="32" y="44" textAnchor="middle" fontSize="7" fill="hsl(var(--primary))" fontFamily="monospace">S3</text>
-        {/* Arrow */}
         <line x1="56" y1="40" x2="76" y2="40" stroke="hsl(var(--border-subtle))" strokeWidth="1"/>
         <polyline points="73,37 76,40 73,43" stroke="hsl(var(--border-subtle))" strokeWidth="1" fill="none"/>
-        {/* Lambda */}
         <rect x="76" y="28" width="52" height="24" rx="4" fill="hsl(var(--surface-elevated))" stroke="hsl(var(--border-subtle))" strokeWidth="1"/>
         <text x="102" y="44" textAnchor="middle" fontSize="7" fill="hsl(var(--foreground))" fontFamily="monospace">Lambda</text>
-        {/* Arrow */}
         <line x1="128" y1="40" x2="148" y2="40" stroke="hsl(var(--border-subtle))" strokeWidth="1"/>
         <polyline points="145,37 148,40 145,43" stroke="hsl(var(--border-subtle))" strokeWidth="1" fill="none"/>
-        {/* Titan */}
         <rect x="148" y="28" width="52" height="24" rx="4" fill="hsl(var(--surface-elevated))" stroke="hsl(var(--border-subtle))" strokeWidth="1"/>
         <text x="174" y="44" textAnchor="middle" fontSize="7" fill="hsl(var(--foreground))" fontFamily="monospace">Titan</text>
-        {/* Arrow */}
         <line x1="200" y1="40" x2="220" y2="40" stroke="hsl(var(--border-subtle))" strokeWidth="1"/>
         <polyline points="217,37 220,40 217,43" stroke="hsl(var(--border-subtle))" strokeWidth="1" fill="none"/>
-        {/* OpenSearch */}
         <rect x="220" y="20" width="60" height="24" rx="4" fill="hsl(var(--primary) / 0.12)" stroke="hsl(var(--primary) / 0.3)" strokeWidth="1"/>
         <text x="250" y="36" textAnchor="middle" fontSize="7" fill="hsl(var(--primary))" fontFamily="monospace">OpenSearch</text>
-        {/* Bedrock below */}
         <rect x="220" y="52" width="60" height="20" rx="4" fill="hsl(var(--surface-elevated))" stroke="hsl(var(--border-subtle))" strokeWidth="1"/>
         <text x="250" y="65" textAnchor="middle" fontSize="7" fill="hsl(var(--foreground))" fontFamily="monospace">Bedrock</text>
-        {/* Vertical connector */}
         <line x1="250" y1="44" x2="250" y2="52" stroke="hsl(var(--border-subtle))" strokeWidth="1" strokeDasharray="2 2"/>
-        {/* DLQ label */}
         <rect x="76" y="60" width="52" height="16" rx="3" fill="hsl(var(--surface-elevated))" stroke="hsl(var(--border-subtle))" strokeWidth="1"/>
         <text x="102" y="71" textAnchor="middle" fontSize="6" fill="hsl(var(--muted-foreground))" fontFamily="monospace">DLQ</text>
         <line x1="102" y1="52" x2="102" y2="60" stroke="hsl(var(--border-subtle))" strokeWidth="1" strokeDasharray="2 2"/>
@@ -64,44 +55,33 @@ const projects = [
       "DLQ with maxReceiveCount=3 for fault tolerance",
       "Idempotent DynamoDB writes via conditional expressions",
       "Reserved concurrency as a hard Bedrock rate guard",
-      "SNS fan-out for multi-channel stakeholder alerting",
     ],
     stack: ["Lambda", "Bedrock (Claude)", "SQS", "SNS", "DynamoDB", "S3"],
     metric: { label: "Message reliability", value: "99.9%" },
+    links: { repo: "#", doc: "#", demo: "#" },
     arch: (
       <svg viewBox="0 0 320 80" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full" aria-hidden="true">
-        {/* S3 */}
         <rect x="8" y="28" width="40" height="24" rx="4" fill="hsl(var(--primary) / 0.12)" stroke="hsl(var(--primary) / 0.3)" strokeWidth="1"/>
         <text x="28" y="44" textAnchor="middle" fontSize="7" fill="hsl(var(--primary))" fontFamily="monospace">S3</text>
-        {/* Arrow */}
         <line x1="48" y1="40" x2="62" y2="40" stroke="hsl(var(--border-subtle))" strokeWidth="1"/>
         <polyline points="59,37 62,40 59,43" stroke="hsl(var(--border-subtle))" strokeWidth="1" fill="none"/>
-        {/* SQS */}
         <rect x="62" y="28" width="44" height="24" rx="4" fill="hsl(var(--surface-elevated))" stroke="hsl(var(--border-subtle))" strokeWidth="1"/>
         <text x="84" y="44" textAnchor="middle" fontSize="7" fill="hsl(var(--foreground))" fontFamily="monospace">SQS</text>
-        {/* DLQ */}
         <rect x="62" y="60" width="44" height="16" rx="3" fill="hsl(var(--surface-elevated))" stroke="hsl(var(--border-subtle))" strokeWidth="1"/>
         <text x="84" y="71" textAnchor="middle" fontSize="6" fill="hsl(var(--muted-foreground))" fontFamily="monospace">DLQ ×3</text>
         <line x1="84" y1="52" x2="84" y2="60" stroke="hsl(var(--border-subtle))" strokeWidth="1" strokeDasharray="2 2"/>
-        {/* Arrow */}
         <line x1="106" y1="40" x2="120" y2="40" stroke="hsl(var(--border-subtle))" strokeWidth="1"/>
         <polyline points="117,37 120,40 117,43" stroke="hsl(var(--border-subtle))" strokeWidth="1" fill="none"/>
-        {/* Lambda */}
         <rect x="120" y="28" width="52" height="24" rx="4" fill="hsl(var(--surface-elevated))" stroke="hsl(var(--border-subtle))" strokeWidth="1"/>
         <text x="146" y="44" textAnchor="middle" fontSize="7" fill="hsl(var(--foreground))" fontFamily="monospace">Lambda</text>
-        {/* Arrow */}
         <line x1="172" y1="40" x2="186" y2="40" stroke="hsl(var(--border-subtle))" strokeWidth="1"/>
         <polyline points="183,37 186,40 183,43" stroke="hsl(var(--border-subtle))" strokeWidth="1" fill="none"/>
-        {/* Bedrock */}
         <rect x="186" y="28" width="52" height="24" rx="4" fill="hsl(var(--primary) / 0.12)" stroke="hsl(var(--primary) / 0.3)" strokeWidth="1"/>
         <text x="212" y="44" textAnchor="middle" fontSize="7" fill="hsl(var(--primary))" fontFamily="monospace">Bedrock</text>
-        {/* Arrow to SNS */}
         <line x1="238" y1="40" x2="256" y2="40" stroke="hsl(var(--border-subtle))" strokeWidth="1"/>
         <polyline points="253,37 256,40 253,43" stroke="hsl(var(--border-subtle))" strokeWidth="1" fill="none"/>
-        {/* SNS */}
         <rect x="256" y="20" width="44" height="20" rx="4" fill="hsl(var(--surface-elevated))" stroke="hsl(var(--border-subtle))" strokeWidth="1"/>
         <text x="278" y="33" textAnchor="middle" fontSize="7" fill="hsl(var(--foreground))" fontFamily="monospace">SNS</text>
-        {/* DynamoDB */}
         <rect x="256" y="48" width="44" height="20" rx="4" fill="hsl(var(--surface-elevated))" stroke="hsl(var(--border-subtle))" strokeWidth="1"/>
         <text x="278" y="61" textAnchor="middle" fontSize="7" fill="hsl(var(--foreground))" fontFamily="monospace">DynamoDB</text>
         <line x1="238" y1="48" x2="256" y2="58" stroke="hsl(var(--border-subtle))" strokeWidth="1" strokeDasharray="2 2"/>
@@ -119,47 +99,36 @@ const projects = [
       "Private VPC subnets — no direct public exposure",
       "Security group layering — least-surface-area access",
       "RDS Multi-AZ with automatic failover < 60s",
-      "ECR image scanning on every push",
       "Per-task IAM execution roles — no shared credentials",
     ],
     stack: ["ECS Fargate", "RDS PostgreSQL Multi-AZ", "SNS/SQS", "ALB", "CodeDeploy", "Secrets Manager"],
     metric: { label: "Deployment downtime", value: "0s" },
+    links: { repo: "#", doc: "#", demo: "#" },
     arch: (
       <svg viewBox="0 0 320 80" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full" aria-hidden="true">
-        {/* ALB */}
         <rect x="8" y="28" width="40" height="24" rx="4" fill="hsl(var(--primary) / 0.12)" stroke="hsl(var(--primary) / 0.3)" strokeWidth="1"/>
         <text x="28" y="44" textAnchor="middle" fontSize="7" fill="hsl(var(--primary))" fontFamily="monospace">ALB</text>
-        {/* Arrow */}
         <line x1="48" y1="40" x2="62" y2="40" stroke="hsl(var(--border-subtle))" strokeWidth="1"/>
         <polyline points="59,37 62,40 59,43" stroke="hsl(var(--border-subtle))" strokeWidth="1" fill="none"/>
-        {/* ECS Fargate */}
         <rect x="62" y="20" width="64" height="40" rx="4" fill="hsl(var(--surface-elevated))" stroke="hsl(var(--border-subtle))" strokeWidth="1"/>
         <text x="94" y="37" textAnchor="middle" fontSize="7" fill="hsl(var(--foreground))" fontFamily="monospace">ECS</text>
         <text x="94" y="50" textAnchor="middle" fontSize="6" fill="hsl(var(--muted-foreground))" fontFamily="monospace">Fargate</text>
-        {/* CodeDeploy label */}
         <rect x="62" y="64" width="64" height="14" rx="3" fill="none" stroke="hsl(var(--border-subtle))" strokeWidth="1" strokeDasharray="3 2"/>
         <text x="94" y="74" textAnchor="middle" fontSize="6" fill="hsl(var(--muted-foreground))" fontFamily="monospace">CodeDeploy B/G</text>
-        {/* Arrow */}
         <line x1="126" y1="40" x2="144" y2="40" stroke="hsl(var(--border-subtle))" strokeWidth="1"/>
         <polyline points="141,37 144,40 141,43" stroke="hsl(var(--border-subtle))" strokeWidth="1" fill="none"/>
-        {/* SNS */}
         <rect x="144" y="20" width="44" height="20" rx="4" fill="hsl(var(--surface-elevated))" stroke="hsl(var(--border-subtle))" strokeWidth="1"/>
         <text x="166" y="33" textAnchor="middle" fontSize="7" fill="hsl(var(--foreground))" fontFamily="monospace">SNS</text>
-        {/* SQS */}
         <rect x="144" y="48" width="44" height="20" rx="4" fill="hsl(var(--surface-elevated))" stroke="hsl(var(--border-subtle))" strokeWidth="1"/>
         <text x="166" y="61" textAnchor="middle" fontSize="7" fill="hsl(var(--foreground))" fontFamily="monospace">SQS</text>
         <line x1="166" y1="40" x2="166" y2="48" stroke="hsl(var(--border-subtle))" strokeWidth="1"/>
-        {/* Arrow */}
         <line x1="188" y1="40" x2="204" y2="40" stroke="hsl(var(--border-subtle))" strokeWidth="1"/>
         <polyline points="201,37 204,40 201,43" stroke="hsl(var(--border-subtle))" strokeWidth="1" fill="none"/>
-        {/* VPC box */}
         <rect x="204" y="12" width="108" height="56" rx="4" fill="none" stroke="hsl(var(--border-subtle))" strokeWidth="1" strokeDasharray="3 2"/>
         <text x="258" y="22" textAnchor="middle" fontSize="6" fill="hsl(var(--muted-foreground))" fontFamily="monospace">Private VPC</text>
-        {/* RDS */}
         <rect x="214" y="28" width="40" height="24" rx="4" fill="hsl(var(--primary) / 0.12)" stroke="hsl(var(--primary) / 0.3)" strokeWidth="1"/>
         <text x="234" y="40" textAnchor="middle" fontSize="6.5" fill="hsl(var(--primary))" fontFamily="monospace">RDS</text>
         <text x="234" y="50" textAnchor="middle" fontSize="6" fill="hsl(var(--primary))" fontFamily="monospace">Multi-AZ</text>
-        {/* Secrets */}
         <rect x="262" y="28" width="44" height="24" rx="4" fill="hsl(var(--surface-elevated))" stroke="hsl(var(--border-subtle))" strokeWidth="1"/>
         <text x="284" y="40" textAnchor="middle" fontSize="6" fill="hsl(var(--foreground))" fontFamily="monospace">Secrets</text>
         <text x="284" y="50" textAnchor="middle" fontSize="6" fill="hsl(var(--muted-foreground))" fontFamily="monospace">Manager</text>
@@ -175,10 +144,11 @@ export default function Projects() {
   const scrollTo = (index: number) => {
     const container = carouselRef.current;
     if (!container) return;
-    const cards = container.querySelectorAll(".project-card");
-    if (cards[index]) {
-      cards[index].scrollIntoView({ behavior: "smooth", inline: "start", block: "nearest" });
-    }
+    const cards = container.querySelectorAll<HTMLElement>(".project-card");
+    if (!cards[index]) return;
+    const card = cards[index];
+    // Scroll so card aligns to container's left edge (accounting for padding)
+    container.scrollTo({ left: card.offsetLeft - container.offsetLeft, behavior: "smooth" });
     setActiveIndex(index);
   };
 
@@ -189,13 +159,16 @@ export default function Projects() {
     const container = carouselRef.current;
     if (!container) return;
 
+    // Ensure starts at index 0
+    container.scrollLeft = 0;
+
     const handleScroll = () => {
-      const cards = Array.from(container.querySelectorAll(".project-card")) as HTMLElement[];
+      const cards = Array.from(container.querySelectorAll<HTMLElement>(".project-card"));
       const scrollLeft = container.scrollLeft;
       let closest = 0;
       let minDist = Infinity;
       cards.forEach((card, i) => {
-        const dist = Math.abs(card.offsetLeft - scrollLeft);
+        const dist = Math.abs(card.offsetLeft - container.offsetLeft - scrollLeft);
         if (dist < minDist) {
           minDist = dist;
           closest = i;
@@ -209,10 +182,10 @@ export default function Projects() {
   }, []);
 
   return (
-    <section id="projects" className="py-24 md:py-32 overflow-hidden">
-      <div className="mx-auto max-w-6xl px-6">
+    <section id="projects" className="py-16 md:py-32 overflow-hidden" style={{ borderTop: "1px solid hsl(var(--border-subtle))" }}>
+      <div className="mx-auto max-w-6xl px-4 md:px-6">
         {/* Header */}
-        <div className="flex items-end justify-between mb-12">
+        <div className="flex items-end justify-between mb-10 md:mb-12">
           <div>
             <span
               className="text-xs font-semibold uppercase tracking-widest mb-3 block"
@@ -233,8 +206,10 @@ export default function Projects() {
             <button
               onClick={scrollPrev}
               disabled={activeIndex === 0}
-              className="flex h-9 w-9 items-center justify-center rounded-lg border transition-all duration-200"
+              className="flex items-center justify-center rounded-lg border transition-all duration-200"
               style={{
+                width: 44,
+                height: 44,
                 borderColor: "hsl(var(--border-subtle))",
                 color: activeIndex === 0 ? "hsl(var(--muted-foreground) / 0.4)" : "hsl(var(--muted-foreground))",
                 background: "hsl(var(--card))",
@@ -248,8 +223,10 @@ export default function Projects() {
             <button
               onClick={scrollNext}
               disabled={activeIndex === projects.length - 1}
-              className="flex h-9 w-9 items-center justify-center rounded-lg border transition-all duration-200"
+              className="flex items-center justify-center rounded-lg border transition-all duration-200"
               style={{
+                width: 44,
+                height: 44,
                 borderColor: "hsl(var(--border-subtle))",
                 color: activeIndex === projects.length - 1 ? "hsl(var(--muted-foreground) / 0.4)" : "hsl(var(--muted-foreground))",
                 background: "hsl(var(--card))",
@@ -264,13 +241,17 @@ export default function Projects() {
         </div>
       </div>
 
-      {/* Carousel */}
-      <div className="pl-6 md:pl-[calc((100vw-1152px)/2+24px)]">
-        <div ref={carouselRef} className="carousel-container pr-6">
+      {/* Carousel — full bleed with left padding aligned to grid */}
+      <div className="w-full overflow-hidden">
+        <div
+          ref={carouselRef}
+          className="carousel-container"
+          style={{ paddingLeft: "max(1rem, calc((100vw - 1152px) / 2 + 1.5rem))", paddingRight: "1.5rem" }}
+        >
           {projects.map((project) => (
-            <article key={project.number} className="project-card p-8 flex flex-col gap-6">
+            <article key={project.number} className="project-card flex flex-col gap-0" style={{ padding: 28 }}>
               {/* Card top */}
-              <div className="flex items-start justify-between">
+              <div className="flex items-start justify-between mb-5">
                 <span
                   className="text-xs font-mono font-medium"
                   style={{ color: "hsl(var(--primary))" }}
@@ -291,10 +272,10 @@ export default function Projects() {
               </div>
 
               {/* Title + impact */}
-              <div>
+              <div className="mb-5">
                 <h3
-                  className="text-xl font-semibold mb-2 leading-snug"
-                  style={{ color: "hsl(var(--foreground))", letterSpacing: "-0.01em" }}
+                  className="font-semibold mb-2 leading-snug"
+                  style={{ color: "hsl(var(--foreground))", letterSpacing: "-0.01em", fontSize: "clamp(1rem, 2.5vw, 1.25rem)" }}
                 >
                   {project.title}
                 </h3>
@@ -305,35 +286,106 @@ export default function Projects() {
 
               {/* Architecture diagram */}
               <div
-                className="rounded-lg p-4"
+                className="rounded-lg p-4 mb-1"
                 style={{ background: "hsl(var(--surface-elevated))", border: "1px solid hsl(var(--border-subtle))" }}
               >
                 {project.arch}
               </div>
 
+              {/* Divider with spacing */}
+              <div style={{ height: 20 }} />
+
               {/* Description */}
-              <p className="text-sm leading-relaxed" style={{ color: "hsl(var(--muted-foreground))" }}>
+              <p className="text-sm leading-relaxed mb-5" style={{ color: "hsl(var(--muted-foreground))", fontSize: "clamp(0.8rem, 1.5vw, 0.875rem)" }}>
                 {project.description}
               </p>
 
-              {/* Highlights */}
-              <ul className="space-y-2">
-                {project.highlights.map((h) => (
-                  <li key={h} className="flex items-start gap-2.5 text-sm" style={{ color: "hsl(var(--muted-foreground))" }}>
+              {/* Highlights — max 5 bullets, 6px gap */}
+              <ul className="mb-5" style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                {project.highlights.slice(0, 5).map((h) => (
+                  <li key={h} className="flex items-start gap-2.5 text-sm" style={{ color: "hsl(var(--muted-foreground))", fontSize: "clamp(0.8rem, 1.5vw, 0.875rem)" }}>
                     <span
-                      className="mt-2 flex-shrink-0 h-1 w-1 rounded-full"
-                      style={{ background: "hsl(var(--primary))" }}
+                      className="flex-shrink-0 h-1 w-1 rounded-full"
+                      style={{ background: "hsl(var(--primary))", marginTop: 8 }}
                     />
                     {h}
                   </li>
                 ))}
               </ul>
 
-              {/* Stack */}
-              <div className="flex flex-wrap gap-2 mt-auto pt-2" style={{ borderTop: "1px solid hsl(var(--border-subtle))" }}>
+              {/* Stack pills */}
+              <div className="flex flex-wrap gap-2 pb-5" style={{ borderBottom: "1px solid hsl(var(--border-subtle))" }}>
                 {project.stack.map((s) => (
                   <span key={s} className="stack-pill">{s}</span>
                 ))}
+              </div>
+
+              {/* Action buttons */}
+              <div className="pt-5 flex flex-wrap gap-3 mt-auto">
+                <a
+                  href={project.links.repo}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 rounded-lg px-4 text-xs font-semibold transition-all duration-200 flex-1 min-w-[120px] justify-center"
+                  style={{
+                    border: "1px solid hsl(var(--border-subtle))",
+                    color: "hsl(var(--muted-foreground))",
+                    height: 44,
+                  }}
+                  onMouseEnter={(e) => {
+                    (e.currentTarget as HTMLElement).style.borderColor = "hsl(var(--foreground) / 0.2)";
+                    (e.currentTarget as HTMLElement).style.color = "hsl(var(--foreground))";
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.currentTarget as HTMLElement).style.borderColor = "hsl(var(--border-subtle))";
+                    (e.currentTarget as HTMLElement).style.color = "hsl(var(--muted-foreground))";
+                  }}
+                >
+                  <Github size={13} strokeWidth={1.75} />
+                  Code Repo
+                </a>
+                <a
+                  href={project.links.doc}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 rounded-lg px-4 text-xs font-semibold transition-all duration-200 flex-1 min-w-[120px] justify-center"
+                  style={{
+                    border: "1px solid hsl(var(--border-subtle))",
+                    color: "hsl(var(--muted-foreground))",
+                    height: 44,
+                  }}
+                  onMouseEnter={(e) => {
+                    (e.currentTarget as HTMLElement).style.borderColor = "hsl(var(--foreground) / 0.2)";
+                    (e.currentTarget as HTMLElement).style.color = "hsl(var(--foreground))";
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.currentTarget as HTMLElement).style.borderColor = "hsl(var(--border-subtle))";
+                    (e.currentTarget as HTMLElement).style.color = "hsl(var(--muted-foreground))";
+                  }}
+                >
+                  <FileText size={13} strokeWidth={1.75} />
+                  Design Doc
+                </a>
+                <a
+                  href={project.links.demo}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 rounded-lg px-4 text-xs font-semibold transition-all duration-200 flex-1 min-w-[120px] justify-center"
+                  style={{
+                    background: "hsl(var(--primary))",
+                    color: "hsl(var(--primary-foreground))",
+                    height: 44,
+                  }}
+                  onMouseEnter={(e) => {
+                    (e.currentTarget as HTMLElement).style.boxShadow = "0 0 16px hsl(var(--primary) / 0.4)";
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.currentTarget as HTMLElement).style.boxShadow = "none";
+                  }}
+                >
+                  <Globe size={13} strokeWidth={1.75} />
+                  Live Demo
+                </a>
               </div>
             </article>
           ))}
@@ -346,10 +398,13 @@ export default function Projects() {
           <button
             key={i}
             onClick={() => scrollTo(i)}
-            className="h-1.5 rounded-full transition-all duration-300"
+            className="rounded-full transition-all duration-300"
             style={{
-              width: i === activeIndex ? "20px" : "6px",
+              height: 6,
+              width: i === activeIndex ? 20 : 6,
               background: i === activeIndex ? "hsl(var(--primary))" : "hsl(var(--border-subtle))",
+              minWidth: 6,
+              minHeight: 6,
             }}
             aria-label={`Go to project ${i + 1}`}
           />
