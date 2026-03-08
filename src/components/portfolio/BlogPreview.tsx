@@ -35,7 +35,7 @@ const containerVariants = {
 
 const cardVariants = {
   hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" as const } },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" as const } },
 };
 
 function BlogCard({ post }: { post: typeof posts[0] }) {
@@ -46,15 +46,15 @@ function BlogCard({ post }: { post: typeof posts[0] }) {
       href="#"
       className="block rounded-xl border transition-all duration-200 p-6 relative overflow-hidden"
       style={{
-        background: hovered ? "hsl(var(--card))" : "hsl(var(--card))",
-        borderColor: hovered ? "hsl(var(--primary) / 0.3)" : "hsl(var(--border-subtle))",
+        background: hovered ? "rgba(255,255,255,0.03)" : "hsl(var(--card))",
+        // At rest: neutral border. On hover: purple left border via pseudo-element below.
+        borderColor: "hsl(var(--border-subtle))",
         textDecoration: "none",
-        backgroundColor: hovered ? "hsl(var(--foreground) / 0.015)" : undefined,
       }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      {/* Purple left border on hover */}
+      {/* Purple left border — hover only, slide in from left */}
       <div
         className="absolute left-0 top-0 bottom-0 transition-all duration-200"
         style={{
@@ -67,7 +67,7 @@ function BlogCard({ post }: { post: typeof posts[0] }) {
         }}
       />
 
-      <div className="flex items-center justify-between mb-4 gap-2 flex-wrap">
+      <div className="flex items-center gap-2 mb-4 flex-wrap">
         <span
           className="text-xs font-semibold rounded-md px-2 py-1 whitespace-nowrap"
           style={{
@@ -115,7 +115,7 @@ export default function BlogPreview() {
   return (
     <section
       id="writing"
-      className="py-16 md:py-32"
+      className="py-16 md:py-20"
       style={{ borderTop: "1px solid hsl(var(--border-subtle))" }}
     >
       <div className="mx-auto max-w-6xl px-4 md:px-6">
@@ -146,7 +146,7 @@ export default function BlogPreview() {
             <a
               href="#"
               className="hidden md:inline-flex items-center gap-1.5 text-sm font-medium transition-colors duration-200"
-              style={{ color: "hsl(var(--muted-foreground))" }}
+              style={{ color: "hsl(var(--muted-foreground))", minHeight: 44 }}
               onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = "hsl(var(--foreground))")}
               onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = "hsl(var(--muted-foreground))")}
             >

@@ -42,11 +42,11 @@ const containerVariants = {
 };
 
 const cardVariants = {
-  hidden: { opacity: 0, y: 24 },
+  hidden: { opacity: 0, y: 20 },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.45, ease: "easeOut" as const },
+    transition: { duration: 0.5, ease: "easeOut" as const },
   },
 };
 
@@ -76,19 +76,18 @@ export default function FocusAreas() {
           </h2>
         </motion.div>
 
-        {/* Grid */}
+        {/* Grid — stretch so all cards are equal height */}
         <motion.div
           className="grid grid-cols-1 md:grid-cols-2 gap-4"
+          style={{ alignItems: "stretch" }}
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.1 }}
         >
           {areas.map((area) => (
-            <motion.div key={area.title} variants={cardVariants}>
-              <CardSpotlight
-                className="focus-card p-7 h-full"
-              >
+            <motion.div key={area.title} variants={cardVariants} className="flex">
+              <CardSpotlight className="focus-card p-7 flex flex-col w-full">
                 <div className="flex items-start gap-4 mb-4">
                   <span className="text-2xl leading-none mt-0.5">{area.icon}</span>
                   <h3
@@ -104,7 +103,8 @@ export default function FocusAreas() {
                 >
                   {area.description}
                 </p>
-                <div className="flex flex-wrap gap-2">
+                {/* Tags pushed to bottom */}
+                <div className="flex flex-wrap gap-2 mt-auto">
                   {area.tags.map((tag) => (
                     <span key={tag} className="stack-pill">
                       {tag}
