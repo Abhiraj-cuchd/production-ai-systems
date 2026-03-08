@@ -156,7 +156,7 @@
     @apply rounded-2xl border flex-shrink-0 transition-all duration-200;
     background: hsl(var(--card));
     border-color: hsl(var(--border-subtle));
-    width: 560px;
+    width: min(560px, calc(100vw - 2rem));
   }
   .project-card:hover {
     border-color: hsl(var(--primary) / 0.3);
