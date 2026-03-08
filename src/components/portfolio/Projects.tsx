@@ -9,11 +9,10 @@ const projects = [
     description:
       "End-to-end serverless pipeline for document ingestion, embedding, and semantic retrieval. Documents are chunked at 512 tokens with overlap, embedded via Amazon Titan, indexed in OpenSearch with HNSW kNN, and queried through Bedrock Claude with structured prompting.",
     highlights: [
-      "Presigned S3 uploads for secure document ingestion",
-      "512-token overlapping chunks for semantic coherence",
       "HNSW kNN indexing with cosine similarity in OpenSearch",
       "DLQ-backed ingestion with maxReceiveCount retry logic",
       "Per-Lambda IAM roles — zero shared credentials",
+      "512-token overlapping chunks for semantic coherence",
     ],
     stack: ["Lambda", "Bedrock (Claude + Titan)", "OpenSearch", "DynamoDB", "S3", "API Gateway"],
     metric: { label: "Query latency", value: "< 2s" },
@@ -48,13 +47,12 @@ const projects = [
     title: "AI Document Risk & Compliance Analyzer",
     impact: "Achieved 99.9% message processing reliability through fully async fan-out with DLQ-backed fault tolerance.",
     description:
-      "Fully asynchronous compliance analysis pipeline. Documents arrive via S3 events, fan into SQS, trigger Lambda workers that invoke Bedrock Claude for structured risk classification, and route high-severity findings through SNS to stakeholder channels — all without a single blocking call.",
+      "Fully asynchronous compliance analysis pipeline. Documents arrive via S3 events, fan into SQS, trigger Lambda workers that invoke Bedrock Claude for structured risk classification, and route high-severity findings through SNS to stakeholder channels.",
     highlights: [
-      "Fully async S3 → SQS → Lambda ingestion pipeline",
-      "Structured JSON risk output from Claude via Bedrock",
       "DLQ with maxReceiveCount=3 for fault tolerance",
       "Idempotent DynamoDB writes via conditional expressions",
       "Reserved concurrency as a hard Bedrock rate guard",
+      "Structured JSON risk output from Claude via Bedrock",
     ],
     stack: ["Lambda", "Bedrock (Claude)", "SQS", "SNS", "DynamoDB", "S3"],
     metric: { label: "Message reliability", value: "99.9%" },
@@ -93,12 +91,11 @@ const projects = [
     title: "Cloud-Native Ticketing Microservices Platform",
     impact: "Eliminated deployment downtime entirely by migrating a NestJS monolith to Blue/Green ECS Fargate with automated rollback.",
     description:
-      "Full migration of a NestJS monolith to containerized microservices on ECS Fargate with Blue/Green CodeDeploy, RDS PostgreSQL Multi-AZ for data durability, SNS+SQS event fanout between services, and private VPC networking with layered security groups — all secrets managed via Secrets Manager.",
+      "Full migration of a NestJS monolith to containerized microservices on ECS Fargate with Blue/Green CodeDeploy and RDS PostgreSQL Multi-AZ. Private VPC networking with layered security groups — all secrets managed via Secrets Manager.",
     highlights: [
+      "RDS Multi-AZ with automatic failover < 60s",
       "SNS + SQS fanout for decoupled inter-service events",
       "Private VPC subnets — no direct public exposure",
-      "Security group layering — least-surface-area access",
-      "RDS Multi-AZ with automatic failover < 60s",
       "Per-task IAM execution roles — no shared credentials",
     ],
     stack: ["ECS Fargate", "RDS PostgreSQL Multi-AZ", "SNS/SQS", "ALB", "CodeDeploy", "Secrets Manager"],
@@ -147,7 +144,6 @@ export default function Projects() {
     const cards = container.querySelectorAll<HTMLElement>(".project-card");
     if (!cards[index]) return;
     const card = cards[index];
-    // Scroll so card aligns to container's left edge (accounting for padding)
     container.scrollTo({ left: card.offsetLeft - container.offsetLeft, behavior: "smooth" });
     setActiveIndex(index);
   };
@@ -159,7 +155,6 @@ export default function Projects() {
     const container = carouselRef.current;
     if (!container) return;
 
-    // Ensure starts at index 0
     container.scrollLeft = 0;
 
     const handleScroll = () => {
@@ -241,7 +236,7 @@ export default function Projects() {
         </div>
       </div>
 
-      {/* Carousel — full bleed with left padding aligned to grid */}
+      {/* Carousel — full bleed */}
       <div className="w-full overflow-hidden">
         <div
           ref={carouselRef}
@@ -249,7 +244,11 @@ export default function Projects() {
           style={{ paddingLeft: "max(1rem, calc((100vw - 1152px) / 2 + 1.5rem))", paddingRight: "1.5rem" }}
         >
           {projects.map((project) => (
-            <article key={project.number} className="project-card flex flex-col gap-0" style={{ padding: 28 }}>
+            <article
+              key={project.number}
+              className="project-card flex flex-col"
+              style={{ padding: 28 }}
+            >
               {/* Card top */}
               <div className="flex items-start justify-between mb-5">
                 <span
@@ -272,10 +271,10 @@ export default function Projects() {
               </div>
 
               {/* Title + impact */}
-              <div className="mb-5">
+              <div className="mb-4">
                 <h3
                   className="font-semibold mb-2 leading-snug"
-                  style={{ color: "hsl(var(--foreground))", letterSpacing: "-0.01em", fontSize: "clamp(1rem, 2.5vw, 1.25rem)" }}
+                  style={{ color: "hsl(var(--foreground))", letterSpacing: "-0.01em", fontSize: "clamp(1rem, 2.5vw, 1.125rem)" }}
                 >
                   {project.title}
                 </h3>
@@ -286,23 +285,23 @@ export default function Projects() {
 
               {/* Architecture diagram */}
               <div
-                className="rounded-lg p-4 mb-1"
+                className="rounded-lg p-4 mb-4"
                 style={{ background: "hsl(var(--surface-elevated))", border: "1px solid hsl(var(--border-subtle))" }}
               >
                 {project.arch}
               </div>
 
-              {/* Divider with spacing */}
-              <div style={{ height: 20 }} />
-
-              {/* Description */}
-              <p className="text-sm leading-relaxed mb-5" style={{ color: "hsl(var(--muted-foreground))", fontSize: "clamp(0.8rem, 1.5vw, 0.875rem)" }}>
+              {/* Description — 2 sentences max */}
+              <p
+                className="text-sm leading-relaxed mb-4"
+                style={{ color: "hsl(var(--muted-foreground))", fontSize: "clamp(0.8rem, 1.5vw, 0.875rem)" }}
+              >
                 {project.description}
               </p>
 
-              {/* Highlights — max 5 bullets, 6px gap */}
-              <ul className="mb-5" style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-                {project.highlights.slice(0, 5).map((h) => (
+              {/* Highlights — max 4 bullets, 6px gap */}
+              <ul className="mb-4" style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                {project.highlights.slice(0, 4).map((h) => (
                   <li key={h} className="flex items-start gap-2.5 text-sm" style={{ color: "hsl(var(--muted-foreground))", fontSize: "clamp(0.8rem, 1.5vw, 0.875rem)" }}>
                     <span
                       className="flex-shrink-0 h-1 w-1 rounded-full"
@@ -314,19 +313,19 @@ export default function Projects() {
               </ul>
 
               {/* Stack pills */}
-              <div className="flex flex-wrap gap-2 pb-5" style={{ borderBottom: "1px solid hsl(var(--border-subtle))" }}>
+              <div className="flex flex-wrap gap-2 pb-4" style={{ borderBottom: "1px solid hsl(var(--border-subtle))" }}>
                 {project.stack.map((s) => (
                   <span key={s} className="stack-pill">{s}</span>
                 ))}
               </div>
 
-              {/* Action buttons */}
-              <div className="pt-5 flex flex-wrap gap-3 mt-auto">
+              {/* Action buttons — always visible, pushed to bottom */}
+              <div className="pt-4 mt-auto flex flex-wrap gap-2">
                 <a
                   href={project.links.repo}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-lg px-4 text-xs font-semibold transition-all duration-200 flex-1 min-w-[120px] justify-center"
+                  className="inline-flex items-center gap-2 rounded-lg px-4 text-xs font-semibold transition-all duration-200 flex-1 min-w-[110px] justify-center"
                   style={{
                     border: "1px solid hsl(var(--border-subtle))",
                     color: "hsl(var(--muted-foreground))",
@@ -348,7 +347,7 @@ export default function Projects() {
                   href={project.links.doc}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-lg px-4 text-xs font-semibold transition-all duration-200 flex-1 min-w-[120px] justify-center"
+                  className="inline-flex items-center gap-2 rounded-lg px-4 text-xs font-semibold transition-all duration-200 flex-1 min-w-[110px] justify-center"
                   style={{
                     border: "1px solid hsl(var(--border-subtle))",
                     color: "hsl(var(--muted-foreground))",
@@ -370,7 +369,7 @@ export default function Projects() {
                   href={project.links.demo}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-lg px-4 text-xs font-semibold transition-all duration-200 flex-1 min-w-[120px] justify-center"
+                  className="inline-flex items-center gap-2 rounded-lg px-4 text-xs font-semibold transition-all duration-200 flex-1 min-w-[110px] justify-center"
                   style={{
                     background: "hsl(var(--primary))",
                     color: "hsl(var(--primary-foreground))",
