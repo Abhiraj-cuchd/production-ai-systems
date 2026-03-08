@@ -1,4 +1,5 @@
-import { useEffect } from "react";
+import { motion } from "framer-motion";
+import { CardSpotlight } from "@/components/ui/card-spotlight";
 
 const areas = [
   {
@@ -31,30 +32,36 @@ const areas = [
   },
 ];
 
+const containerVariants = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.1,
+    },
+  },
+};
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 24 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.45, ease: [0.25, 0.1, 0.25, 1] },
+  },
+};
+
 export default function FocusAreas() {
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("visible");
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-
-    const els = document.querySelectorAll(".focus-reveal");
-    els.forEach((el) => observer.observe(el));
-    return () => observer.disconnect();
-  }, []);
-
   return (
-    <section className="py-24 md:py-32">
-      <div className="mx-auto max-w-6xl px-6">
+    <section className="py-16 md:py-32">
+      <div className="mx-auto max-w-6xl px-4 md:px-6">
         {/* Section header */}
-        <div className="mb-16 reveal focus-reveal">
+        <motion.div
+          className="mb-16"
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.4 }}
+        >
           <span
             className="text-xs font-semibold uppercase tracking-widest mb-3 block"
             style={{ color: "hsl(var(--primary))" }}
@@ -67,41 +74,47 @@ export default function FocusAreas() {
           >
             Core Focus Areas
           </h2>
-        </div>
+        </motion.div>
 
         {/* Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {areas.map((area, i) => (
-            <div
-              key={area.title}
-              className="focus-card reveal focus-reveal p-7"
-              style={{ transitionDelay: `${i * 80}ms` }}
-            >
-              <div className="flex items-start gap-4 mb-4">
-                <span className="text-2xl leading-none mt-0.5">{area.icon}</span>
-                <h3
-                  className="text-base font-semibold leading-snug"
-                  style={{ color: "hsl(var(--foreground))" }}
-                >
-                  {area.title}
-                </h3>
-              </div>
-              <p
-                className="text-sm leading-relaxed mb-5"
-                style={{ color: "hsl(var(--muted-foreground))" }}
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-2 gap-4"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.1 }}
+        >
+          {areas.map((area) => (
+            <motion.div key={area.title} variants={cardVariants}>
+              <CardSpotlight
+                className="focus-card p-7 h-full"
               >
-                {area.description}
-              </p>
-              <div className="flex flex-wrap gap-2">
-                {area.tags.map((tag) => (
-                  <span key={tag} className="stack-pill">
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            </div>
+                <div className="flex items-start gap-4 mb-4">
+                  <span className="text-2xl leading-none mt-0.5">{area.icon}</span>
+                  <h3
+                    className="text-base font-semibold leading-snug"
+                    style={{ color: "hsl(var(--foreground))" }}
+                  >
+                    {area.title}
+                  </h3>
+                </div>
+                <p
+                  className="text-sm leading-relaxed mb-5"
+                  style={{ color: "hsl(var(--muted-foreground))" }}
+                >
+                  {area.description}
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {area.tags.map((tag) => (
+                    <span key={tag} className="stack-pill">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </CardSpotlight>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );
