@@ -1,0 +1,104 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg: #151516;
+  --color-bg-2: #1c1c1e;
+  --color-bg-deep: #101011;
+  --color-fg: #efeee9;
+  --color-body: #b4b2ab;
+  --color-muted: #79776f;
+  --color-line: #323235;
+  --color-accent: #7c9cbf;
+
+  --font-display: var(--font-general), "Helvetica Neue", Arial, sans-serif;
+  --font-sans: var(--font-general), "Helvetica Neue", Arial, sans-serif;
+  --font-mono: var(--font-plex-mono), "SFMono-Regular", Menlo, monospace;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-sharp: cubic-bezier(0.76, 0, 0.24, 1);
+  --ease-snap: cubic-bezier(0.22, 1, 0.36, 1);
+
+  --animate-pulse-dot: pulse-dot 2.4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.25; }
+  }
+}
+
+@layer base {
+  html,
+  body {
+    overflow-x: clip;
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    @apply bg-bg font-sans text-fg;
+  }
+
+  ::selection {
+    background: var(--color-accent);
+    color: var(--color-bg-deep);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+  }
+
+  /* Return visits within a session skip the intro — set by an inline script
+     in <head> so the loader never flashes for repeat views. */
+  html.intro-seen [data-preloader] {
+    display: none;
+  }
+
+  /* Film grain, applied uniformly over everything incl. the loader */
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 95;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
+  }
+}
+
+/* Faint column grid used behind the hero */
+.bg-columns {
+  background-image: linear-gradient(to right, rgba(239, 238, 233, 0.045) 1px, transparent 1px);
+  background-size: calc(100% / 3) 100%;
+}
+@media (min-width: 768px) {
+  .bg-columns {
+    background-size: calc(100% / 6) 100%;
+  }
+}
+
+/* Animated underline — grows left to right */
+.u-line {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 0% 1px;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  padding-bottom: 2px;
+  transition: background-size 0.45s var(--ease-out-expo);
+}
+.u-line:hover,
+.u-line:focus-visible {
+  background-size: 100% 1px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
