@@ -7,7 +7,7 @@ export default function Skills() {
   return (
     <section id="stack" aria-labelledby="stack-title" className="border-t border-line bg-bg-2/45">
       <div className="mx-auto max-w-7xl px-5 py-20 md:px-10 md:py-32">
-        <SectionHeading id="stack-title" index="04" title="Stack" note="What I reach for" />
+        <SectionHeading id="stack-title" title="Stack" note="What I reach for" />
         <dl>
           {skills.map((s, i) => (
             <Reveal key={s.group} delay={i * 0.04} y={16} duration={0.55}>

@@ -19,10 +19,16 @@
   --ease-snap: cubic-bezier(0.22, 1, 0.36, 1);
 
   --animate-pulse-dot: pulse-dot 2.4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --animate-caret: caret 1s steps(1) infinite;
 
   @keyframes pulse-dot {
     0%, 100% { opacity: 1; }
     50% { opacity: 0.25; }
+  }
+
+  @keyframes caret {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
   }
 }
 

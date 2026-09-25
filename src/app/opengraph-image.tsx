@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 
-export const alt = "Abhiraj Ghosh — Software Engineer";
+export const alt = "Abhiraj Ghosh — Backend Software Engineer";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -36,7 +36,7 @@ export default function OpengraphImage() {
             Abhiraj Ghosh<span style={{ color: "#7c9cbf" }}>.</span>
           </span>
           <span style={{ fontSize: 32, color: "#b4b2ab", marginTop: 28 }}>
-            Software Engineer — Full-stack · Microservices · AI Integrations
+            Backend Software Engineer — Node.js · NestJS · Applied AI
           </span>
         </div>
         <div style={{ width: 160, height: 6, background: "#7c9cbf" }} />

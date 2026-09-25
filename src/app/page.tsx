@@ -6,6 +6,7 @@ import Experience from "@/components/experience";
 import Projects from "@/components/projects";
 import Skills from "@/components/skills";
 import Contact from "@/components/contact";
+import StackSection from "@/components/stack-section";
 
 const personJsonLd = {
   "@context": "https://schema.org",
@@ -13,10 +14,14 @@ const personJsonLd = {
   name: "Abhiraj Ghosh",
   url: "https://www.abhirajghosh.tech",
   email: "mailto:abhirajcuchd@gmail.com",
-  jobTitle: "Software Engineer",
+  jobTitle: "Backend Software Engineer",
   worksFor: { "@type": "Organization", name: "Talentelgia Technologies" },
   address: { "@type": "PostalAddress", addressLocality: "Chandigarh", addressCountry: "IN" },
-  sameAs: ["https://github.com/Abhiraj-cuchd", "https://linktr.ee/dev_abhiraj"],
+  sameAs: [
+    "https://github.com/Abhiraj-cuchd",
+    "https://www.linkedin.com/in/abhiraj-ghosh",
+    "https://linktr.ee/dev_abhiraj",
+  ],
 };
 
 export default function Page() {
@@ -28,36 +33,27 @@ export default function Page() {
       />
       <SiteHeader />
       <main id="main">
-        {/* Each section pins at the top of the viewport in turn, then the
-            next one slides up over it — the same reveal Hero does, repeated
-            down the page. z-index climbs with scroll order so later
-            sections always paint over earlier (still-pinned) ones.
-
-            Only short sections (About, Experience — reliably under one
-            viewport at desktop sizes) get `sticky`, and only from `lg` up:
-            a sticky element taller than the viewport can't be scrolled
-            while pinned, so its own overflow becomes unreachable — that's
-            what broke Projects' third entry originally, and on narrow/short
-            mobile viewports even About/Experience's own content can run
-            past one viewport, so they stay in normal (`static`) flow below
-            `lg` and only pin on larger screens where the content reliably
-            fits. Taller sections (Projects, Skills) skip the self-pin
-            entirely at every size — they still get fully covered by the
-            next section once it catches up, via z-index + an opaque
-            background. */}
+        {/* Every section pins once fully scrolled, then the next one slides
+            up over it — the same reveal Hero does, repeated down the page.
+            StackSection handles sections taller than the viewport (it pins
+            them by their bottom edge, so nothing becomes unreachable).
+            z-index climbs with scroll order so later sections always paint
+            over earlier, still-pinned ones; each needs an opaque background,
+            plus a soft top shadow so the layering reads as a card sliding
+            over, not ordinary scrolling (the sections share one colour).
+            Contact is last, so it has nothing to pin under. */}
         <Hero />
-        <div className="relative z-10 bg-bg lg:sticky lg:top-0 lg:min-h-svh">
+        <StackSection className="relative z-10 min-h-svh bg-bg shadow-[0_-24px_48px_-16px_rgb(0_0_0/0.7)]">
           <About />
-        </div>
-        <div className="relative z-20 bg-bg lg:sticky lg:top-0 lg:min-h-svh">
-          <Experience />
-        </div>
-        <div className="relative z-30 bg-bg">
-          <Projects />
-        </div>
-        <div className="relative z-40 bg-bg-2">
+          {/* Stack is part of About, so it carries no section number of its own. */}
           <Skills />
-        </div>
+        </StackSection>
+        <StackSection className="relative z-20 min-h-svh bg-bg shadow-[0_-24px_48px_-16px_rgb(0_0_0/0.7)]">
+          <Experience />
+        </StackSection>
+        <StackSection className="relative z-30 min-h-svh bg-bg shadow-[0_-24px_48px_-16px_rgb(0_0_0/0.7)]">
+          <Projects />
+        </StackSection>
         <div className="relative z-50 min-h-svh bg-bg-deep">
           <Contact />
         </div>

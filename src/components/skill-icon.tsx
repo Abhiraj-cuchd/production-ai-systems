@@ -17,8 +17,30 @@ import {
   SiPostgresql,
   SiGithub,
   SiPostman,
+  SiNestjs,
+  SiPrisma,
+  SiMysql,
+  SiSequelize,
+  SiGithubactions,
+  SiJenkins,
+  SiJest,
+  SiLanggraph,
+  SiMistralai,
+  SiPaddlepaddle,
 } from "@icons-pack/react-simple-icons";
-import { Boxes, Cloud, GitBranch, Route, Bot, BrainCircuit, Sparkles, Webhook } from "lucide-react";
+import {
+  Boxes,
+  Cloud,
+  GitBranch,
+  Route,
+  Bot,
+  BrainCircuit,
+  Sparkles,
+  Webhook,
+  ListOrdered,
+  Database,
+  DatabaseZap,
+} from "lucide-react";
 
 type IconProps = { size?: number; className?: string; strokeWidth?: number; color?: string };
 
@@ -42,6 +64,16 @@ const brandIcons: Record<string, ComponentType<IconProps>> = {
   PostgreSQL: SiPostgresql,
   "Git / GitHub": SiGithub,
   Postman: SiPostman,
+  NestJS: SiNestjs,
+  Prisma: SiPrisma,
+  MySQL: SiMysql,
+  Sequelize: SiSequelize,
+  "GitHub Actions": SiGithubactions,
+  Jenkins: SiJenkins,
+  Jest: SiJest,
+  LangGraph: SiLanggraph,
+  Mistral: SiMistralai,
+  PaddleOCR: SiPaddlepaddle,
 };
 
 // Fallbacks with a well-known brand color, applied explicitly since there's
@@ -59,6 +91,9 @@ const fallbackIcons: Record<string, ComponentType<IconProps>> = {
   "CI/CD": GitBranch,
   RAG: BrainCircuit,
   "AI Integrations": Sparkles,
+  BullMQ: ListOrdered,
+  pgvector: Database,
+  Text2SQL: DatabaseZap,
 };
 
 export default function SkillIcon({ name, size = 16, className }: { name: string; size?: number; className?: string }) {

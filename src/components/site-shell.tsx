@@ -36,6 +36,11 @@ export const useLenis = () => useContext(LenisContext);
  * doesn't move a single pixel across ~170 sampled animation frames after a real click).
  * Since "back to top" always means scrollY 0 regardless of layout, skipping element
  * resolution entirely sidesteps the sticky-rect problem completely.
+ *
+ * Every other home-page section is pinned the same way (see StackSection), so the
+ * same trap applies to them: their rect reports where they're stuck, not where they
+ * sit in the page. Other targets therefore resolve through `flowTop`, which
+ * measures position from the layout instead of the rect.
  */
 export function useHashScrollTo() {
   const lenis = useLenis();
@@ -50,19 +55,39 @@ export function useHashScrollTo() {
       event.preventDefault();
       event.stopPropagation();
 
+      const top = isTop ? 0 : flowTop(target as HTMLElement);
       if (lenis) {
-        lenis.scrollTo(isTop ? 0 : (target as HTMLElement));
+        lenis.scrollTo(top);
         return;
       }
 
       // Lenis not mounted yet (reduced motion, or effect hasn't run) — replicate the
       // same fix manually so #top still works, using native smooth/auto scrolling.
       const behavior = reduced ? "auto" : "smooth";
-      if (isTop) window.scrollTo({ top: 0, behavior });
-      else target?.scrollIntoView({ behavior });
+      window.scrollTo({ top, behavior });
     },
     [lenis, reduced]
   );
+}
+
+/**
+ * Scroll offset at which `el` reaches the top of the viewport in normal flow.
+ * Pinned (sticky) sections can't be measured by their rect, so this adds up the
+ * heights of the <main> blocks before the one containing `el` — heights aren't
+ * affected by pinning. Falls back to the rect outside <main>.
+ */
+function flowTop(el: HTMLElement) {
+  const main = el.closest("main");
+  const blocks = main ? Array.from(main.children) : [];
+  const block = blocks.find((b) => b.contains(el));
+  if (!main || !block) return el.getBoundingClientRect().top + window.scrollY;
+
+  let top = main.getBoundingClientRect().top + window.scrollY;
+  for (const b of blocks) {
+    if (b === block) break;
+    top += (b as HTMLElement).offsetHeight;
+  }
+  return top + el.getBoundingClientRect().top - block.getBoundingClientRect().top;
 }
 
 export default function SiteShell({ children }: { children: ReactNode }) {

@@ -1,7 +1,9 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import { m, useReducedMotion, useScroll, useSpring } from "framer-motion";
-import { nav } from "@/lib/content";
+import { FileDown } from "lucide-react";
+import { nav, profile } from "@/lib/content";
 import { useIntroDone, useHashScrollTo } from "./site-shell";
 import { EASE_OUT } from "@/lib/motion";
 
@@ -11,6 +13,8 @@ export default function SiteHeader() {
   const { scrollYProgress } = useScroll();
   const progress = useSpring(scrollYProgress, { stiffness: 120, damping: 24, mass: 0.3 });
   const scrollToHash = useHashScrollTo();
+  // Section anchors only exist on the home page; elsewhere, link back to them.
+  const onHome = usePathname() === "/";
 
   return (
     <m.header
@@ -21,8 +25,8 @@ export default function SiteHeader() {
     >
       <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-5 md:h-16 md:px-10">
         <a
-          href="#top"
-          onClick={scrollToHash("top")}
+          href={onHome ? "#top" : "/"}
+          onClick={onHome ? scrollToHash("top") : undefined}
           className="font-display text-base font-semibold tracking-tight"
           aria-label="Back to top"
         >
@@ -33,14 +37,22 @@ export default function SiteHeader() {
           {nav.map((item) => (
             <a
               key={item.href}
-              href={item.href}
-              onClick={scrollToHash(item.href.slice(1))}
+              href={onHome ? item.href : `/${item.href}`}
+              onClick={onHome ? scrollToHash(item.href.slice(1)) : undefined}
               className="u-line font-mono text-[10px] uppercase tracking-[0.18em] text-body hover:text-fg sm:text-[11px]"
             >
               <span className="mr-1 hidden text-accent md:inline">{item.index}</span>
               {item.label}
             </a>
           ))}
+          <a
+            href={profile.resume}
+            target="_blank"
+            rel="noreferrer"
+            className="hidden items-center gap-1.5 rounded-full border border-accent/60 px-3.5 py-1.5 font-mono text-[11px] uppercase tracking-[0.18em] text-accent transition-colors duration-300 hover:border-accent hover:bg-accent hover:text-bg-deep sm:inline-flex"
+          >
+            <FileDown aria-hidden size={12} strokeWidth={1.75} /> Resume
+          </a>
         </nav>
       </div>
       {!reduced && (

@@ -17,24 +17,25 @@ const mono = IBM_Plex_Mono({
 });
 
 const description =
-  "Software engineer, 3 years. Ships full-stack products on microservices architecture and AI integrations — from RAG document agents to offline-first logistics software for the Indian Army.";
+  "Backend engineer working mostly in NestJS and Postgres, with AI features in production. Recent work includes an offline inventory assistant for the Indian Army.";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.abhirajghosh.tech"),
   title: {
-    default: "Abhiraj Ghosh — Software Engineer",
+    default: "Abhiraj Ghosh — Backend Software Engineer",
     template: "%s — Abhiraj Ghosh",
   },
   description,
   keywords: [
     "Abhiraj Ghosh",
-    "Software Engineer",
-    "Full-stack developer",
-    "Microservices",
-    "AI integrations",
-    "RAG",
-    "Next.js",
+    "Backend Software Engineer",
     "Node.js",
+    "NestJS",
+    "PostgreSQL",
+    "BullMQ",
+    "LangGraph",
+    "RAG",
+    "Text2SQL",
     "Chandigarh",
   ],
   authors: [{ name: "Abhiraj Ghosh", url: "https://www.abhirajghosh.tech" }],
@@ -43,13 +44,13 @@ export const metadata: Metadata = {
     type: "website",
     url: "/",
     siteName: "Abhiraj Ghosh",
-    title: "Abhiraj Ghosh — Software Engineer",
+    title: "Abhiraj Ghosh — Backend Software Engineer",
     description,
     locale: "en_US",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Abhiraj Ghosh — Software Engineer",
+    title: "Abhiraj Ghosh — Backend Software Engineer",
     description,
   },
   robots: { index: true, follow: true },

@@ -6,7 +6,8 @@ import { EASE_OUT, EASE_SNAP } from "@/lib/motion";
 
 type SectionHeadingProps = {
   id: string;
-  index: string;
+  /** Section number; omit for a sub-section that belongs to the one above it. */
+  index?: string;
   title: string;
   note?: string;
 };
@@ -37,9 +38,11 @@ export default function SectionHeading({ id, index, title, note }: SectionHeadin
   return (
     <div ref={ref} className="mb-12 md:mb-16">
       <div className="flex items-baseline gap-4 pb-4">
-        <m.span {...fade(0.15)} className="font-mono text-[11px] tracking-[0.25em] text-accent">
-          {index}
-        </m.span>
+        {index ? (
+          <m.span {...fade(0.15)} className="font-mono text-[11px] tracking-[0.25em] text-accent">
+            {index}
+          </m.span>
+        ) : null}
         <h2 id={id} className="font-display text-3xl font-semibold tracking-[-0.02em] md:text-5xl">
           {reduced ? (
             title

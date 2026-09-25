@@ -22,6 +22,7 @@ yarn-error.log*
 # env files
 .env*
 *.png
+!public/**/*.png
 # vercel
 .vercel
 .commandcode

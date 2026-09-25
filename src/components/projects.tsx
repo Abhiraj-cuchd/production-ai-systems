@@ -1,4 +1,5 @@
-import { ArrowUpRight, Globe } from "lucide-react";
+import Link from "next/link";
+import { ArrowRight, ArrowUpRight, Globe, Lock } from "lucide-react";
 import { SiGithub } from "@icons-pack/react-simple-icons";
 import Reveal from "./reveal";
 import MaskText from "./mask-text";
@@ -37,12 +38,14 @@ export default function Projects() {
                   <MaskText duration={0.75}>
                     <h3 className="font-display text-3xl font-semibold tracking-[-0.02em] transition-transform duration-500 ease-out group-hover:translate-x-2 md:text-5xl">
                       {p.name}
-                      <ArrowUpRight
-                        aria-hidden
-                        className="ml-3 inline-block align-top text-accent opacity-0 transition-all duration-300 group-hover:translate-x-1 group-hover:opacity-100"
-                        size={22}
-                        strokeWidth={1.75}
-                      />
+                      {p.privateLabel ? null : (
+                        <ArrowUpRight
+                          aria-hidden
+                          className="ml-3 inline-block align-top text-accent opacity-0 transition-all duration-300 group-hover:translate-x-1 group-hover:opacity-100"
+                          size={22}
+                          strokeWidth={1.75}
+                        />
+                      )}
                     </h3>
                   </MaskText>
                   <Reveal y={12} duration={0.5} delay={0.08}>
@@ -76,7 +79,15 @@ export default function Projects() {
                       {p.metric.label}
                     </p>
                   </div>
-                  <div className="mt-8 flex gap-6 font-mono text-[11px] uppercase tracking-[0.2em] md:flex-col md:gap-3">
+                  <div className="mt-8 flex flex-wrap gap-x-6 gap-y-3 font-mono text-[11px] uppercase tracking-[0.2em] md:flex-col md:gap-3">
+                    {p.caseStudy ? (
+                      <Link
+                        href={p.caseStudy}
+                        className="u-line inline-flex w-fit items-center gap-1.5 text-accent"
+                      >
+                        Read the case study <ArrowRight aria-hidden size={12} strokeWidth={1.75} />
+                      </Link>
+                    ) : null}
                     {p.github ? (
                       <a
                         href={p.github}
@@ -98,6 +109,12 @@ export default function Projects() {
                         <Globe aria-hidden size={12} strokeWidth={1.75} />
                         Live
                       </a>
+                    ) : null}
+                    {p.privateLabel ? (
+                      <span className="inline-flex w-fit items-center gap-1.5 text-muted">
+                        <Lock aria-hidden size={12} strokeWidth={1.75} />
+                        {p.privateLabel}
+                      </span>
                     ) : null}
                   </div>
                 </Reveal>
