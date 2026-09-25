@@ -37,8 +37,9 @@ const maskLine = {
   }),
 };
 
-const NAME_PULL = 0.025; // fraction of cursor distance
-const NAME_MAX = 10; // px
+const NAME_PULL = 0.03; // fraction of cursor distance from the name's centre
+const NAME_MAX = 8; // px
+const NAME_REACH = 150; // px beyond the name's box where the pull fades out
 const clamp = (v: number) => Math.max(-NAME_MAX, Math.min(NAME_MAX, v));
 
 export default function Hero() {
@@ -62,8 +63,10 @@ export default function Hero() {
           transition: { duration: 0.6, ease: EASE_OUT, delay },
         };
 
-  // Name leans slightly toward the cursor once it has landed. Mouse only;
-  // measured on the untransformed wrapper so the lean doesn't feed back.
+  // Name leans slightly toward the cursor once it has landed, but only when
+  // the cursor is near it — elsewhere the icons are the thing that responds,
+  // so only one element reacts at a time. Mouse only; measured on the
+  // untransformed wrapper so the lean doesn't feed back into itself.
   const fine = useFinePointer();
   const nameArea = useRef<HTMLDivElement>(null);
   const nx = useMotionValue(0);
@@ -84,9 +87,11 @@ export default function Hero() {
       const el = nameArea.current;
       if (!el) return;
       const r = el.getBoundingClientRect();
-      const inside = py >= 0 && py <= window.innerHeight && r.bottom > 0;
-      nx.set(inside ? clamp((px - (r.left + r.width / 2)) * NAME_PULL) : 0);
-      ny.set(inside ? clamp((py - (r.top + r.height / 2)) * NAME_PULL) : 0);
+      // Distance from the cursor to the name's box (0 when over it).
+      const gap = Math.hypot(Math.max(r.left - px, 0, px - r.right), Math.max(r.top - py, 0, py - r.bottom));
+      const s = Math.max(0, 1 - gap / NAME_REACH);
+      nx.set(clamp((px - (r.left + r.width / 2)) * NAME_PULL) * s);
+      ny.set(clamp((py - (r.top + r.height / 2)) * NAME_PULL) * s);
     };
     const onMove = (e: PointerEvent) => {
       if (!armed || e.pointerType !== "mouse") return;
@@ -113,7 +118,9 @@ export default function Hero() {
     <section
       id="top"
       ref={ref}
-      className={reduced ? "relative border-b border-line" : "sticky top-0 z-0 h-svh border-b border-line"}
+      // Reduced motion drops the pin but keeps the full-height frame: the icon
+      // layout is positioned against it, and collapses onto the name without it.
+      className={`h-svh border-b border-line ${reduced ? "relative" : "sticky top-0 z-0"}`}
     >
       <m.div
         style={reduced ? undefined : { y: contentY, opacity: contentOpacity }}

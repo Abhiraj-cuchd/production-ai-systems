@@ -55,7 +55,8 @@ export default function TypedLine({ lead, rest, start, delay, charMs, reduced, c
             done ? "opacity-0 delay-700" : start ? "opacity-100" : "opacity-0"
           }`}
         >
-          <span className="absolute left-0.5 top-0 h-full w-[2px] animate-caret bg-accent" />
+          {/* Blinks while typing; holds steady as it fades out, then stops animating. */}
+          <span className={`absolute left-0.5 top-0 h-full w-[2px] bg-accent ${done ? "" : "animate-caret"}`} />
         </span>
       )}
       <span className="text-fg opacity-0">{lead.slice(shown)}</span>
